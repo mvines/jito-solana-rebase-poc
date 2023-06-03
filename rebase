@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -ex
+
+REPO=$1
+BRANCH=$2
+UPSTREAM_REPO=$3
+UPSTREAM_BRANCH=${4:?Usage: $0 GIT_REPO GIT_BRANCH UPSTREAM_GIT_REPO UPSTREAM_GIT_BRANCH}
+
+if [[ ! -d .git ]]; then
+  git clone $REPO -b $BRANCH .
+  git remote add upstream $UPSTREAM_REPO
+fi
+
+git fetch origin $BRANCH
+git reset --hard origin/$BRANCH
+git pull --rebase upstream $UPSTREAM_BRANCH

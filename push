@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+REPO=$1
+BRANCH=$2
+
+set -x
+git push -f $REPO $BRANCH

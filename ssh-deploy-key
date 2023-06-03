@@ -1,0 +1,18 @@
+# source me
+#
+# Refer to the following link for a description of how to setup a SSH_DEPLOY_KEY
+# in Github Actions:
+#
+#  https://cpina.github.io/push-to-another-repository-docs/setup-using-ssh-deploy-keys.html#setup-ssh-deploy-keys
+#
+
+if [[ -n "${SSH_DEPLOY_KEY:=}" ]]; then
+  echo "Using SSH_DEPLOY_KEY"
+
+  SSH_DEPLOY_KEY_FILE=~/.ssh-deploy-key
+  echo "$SSH_DEPLOY_KEY" > "$SSH_DEPLOY_KEY_FILE"
+  chmod 600 "$SSH_DEPLOY_KEY_FILE"
+
+  export GIT_SSH_COMMAND="ssh -i $SSH_DEPLOY_KEY_FILE -o StrictHostKeychecking=no -o UserKnownHostsFile=/dev/null"
+  echo GIT_SSH_COMMAND=$GIT_SSH_COMMAND
+fi

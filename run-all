@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -ex
+
+#./run v13 \
+#  git@github.com:mvines/jito-solana.git v1.13 \
+#  https://github.com/solana-labs/solana.git v1.13
+
+./run v14 \
+  git@github.com:mvines/jito-solana.git v1.14 \
+  https://github.com/solana-labs/solana.git v1.14
+
+#./run v16 \
+#  git@github.com:mvines/jito-solana.git v1.16 \
+#  https://github.com/solana-labs/solana.git v1.16
+#
+#./run v17 \
+#  git@github.com:mvines/jito-solana.git master \
+#  https://github.com/solana-labs/solana.git master

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -ex
+
+if [[ -r .gitmodules ]]; then
+  git submodule update --init --recursive
+fi
+./cargo check

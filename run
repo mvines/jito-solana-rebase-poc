@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -e
+
+WORKING_DIR=${1}
+REPO=$2
+BRANCH=$3
+UPSTREAM_REPO=$4
+UPSTREAM_BRANCH=${5:?Usage: $0 WORKING_DIR GIT_REPO GIT_BRANCH UPSTREAM_GIT_REPO UPSTREAM_GIT_BRANCH}
+
+echo "=== $REPO ($BRANCH) <= $UPSTREAM_REPO ($UPSTREAM_BRANCH)"
+mkdir -p $WORKING_DIR
+
+echo "::group::Rebase $REPO ($BRANCH)"
+(set -x; cd $WORKING_DIR; ../rebase $REPO $BRANCH $UPSTREAM_REPO $UPSTREAM_BRANCH)
+echo "::endgroup::"
+
+if [[ $(git -C $WORKING_DIR rev-parse $BRANCH) = $(git -C $WORKING_DIR rev-parse origin/$BRANCH) ]]; then
+  echo No new upstream changes
+  exit 0
+fi
+
+echo "::group::Check $REPO ($BRANCH)"
+(set -x; cd $WORKING_DIR; ../check)
+echo "::endgroup::"
+
+echo "::group::Push $REPO ($BRANCH)"
+(set -ex; cd $WORKING_DIR; ../push $REPO $BRANCH)
+echo "::endgroup::"
